@@ -19,6 +19,6 @@
 
 int		get_next_line(int fd, char **line);
 int		ft_iseol(char *s);
-void	*ft_empty_string(void);
+char	*ft_empty_string(void);
 
 #endif
