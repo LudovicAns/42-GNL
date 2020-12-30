@@ -41,6 +41,8 @@ int		get_next_line(int fd, char **line)
 
 int     return_result(char *result, char **line, char **tmp, int reslen)
 {
+    int     size;
+
     if (reslen <= -1)
         return (-1);
     if (reslen == 0 && !ft_iseol(result))
@@ -49,11 +51,16 @@ int     return_result(char *result, char **line, char **tmp, int reslen)
         tmp = NULL;
         return (0); // Fin de fichier
     }
-    if (!ft_iseol)
+    if (!ft_iseol(result))
     {
         *line = result;
-        return (1); // reslen > 0, Un ligne (sans \n a été trouvé)
+        return (1); // reslen > 0, Une ligne (sans \n a été trouvé)
     }
-
+    size = ft_strlen(result, 0) - (ft_strlen(result, 1) + 1);
+    *line = ft_substr(result, 0, ft_strlen(result, 1));
+    *tmp = ft_substr(result, ft_strlen(result, 1) + 1, size);
+    result = NULL;
+    free(result);
+    return (1);
 }
 

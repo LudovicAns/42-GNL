@@ -93,3 +93,24 @@ int		ft_strlen(char *s, int eol)
 	}
 	return (i);
 }
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	size_t	size;
+	char	*out;
+
+	if (!s)
+		return (NULL);
+	size = ft_strlen(s, 0) - start;
+	size = len > size ? size : len;
+	if (start > ft_strlen(s, 0))
+		size = 0;
+	if (!(out = (char *)malloc(sizeof(char) * size + 1)))
+		return (NULL);
+	i = 0;
+	while (i < size)
+		out[i++] = s[start++];
+	out[i] = '\0';
+	return (out);
+}
