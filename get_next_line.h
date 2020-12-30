@@ -20,5 +20,8 @@
 int		get_next_line(int fd, char **line);
 int		ft_iseol(char *s);
 char	*ft_empty_string(void);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_combine_result(char *result, char *buffer, int reslen);
+int		ft_strlen(char *s, int eol);
 
 #endif

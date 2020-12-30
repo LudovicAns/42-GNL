@@ -28,8 +28,32 @@ int		get_next_line(int fd, char **line)
     {
         while (!ft_iseol(result) && (reslen = read(fd, buffer, BUFFER_SIZE)) > 0)
         {
-            
+            result = ft_combine_result(result, buffer, reslen);
         }
     }
+    if (ft_iseol(result) || reslen < BUFFER_SIZE)
+    {
+        free(buffer);
+        return (return_result(result, line, &tmp, reslen));
+    }
+    return (-1);
+}
+
+int     return_result(char *result, char **line, char **tmp, int reslen)
+{
+    if (reslen <= -1)
+        return (-1);
+    if (reslen == 0 && !ft_iseol(result))
+    {
+        *line = result;
+        tmp = NULL;
+        return (0); // Fin de fichier
+    }
+    if (!ft_iseol)
+    {
+        *line = result;
+        return (1); // reslen > 0, Un ligne (sans \n a été trouvé)
+    }
+
 }
 

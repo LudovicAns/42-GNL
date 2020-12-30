@@ -34,3 +34,62 @@ char	*ft_empty_string(void)
 	s[0]= '\0';
 	return (s);
 }
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	if (!s1 || !s2)
+		return (0);
+	if (!(str = (char *)malloc((ft_strlen(s1, 0) + ft_strlen(s2, 0))
+					* sizeof(char) + 1)))
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		str[i + j] = s2[j];
+		j++;
+	}
+	str[i + j] = '\0';
+	return (str);
+}
+
+char	*ft_combine_result(char *result, char *buffer, int reslen)
+{
+	char	*temp;
+	char	*newstr;
+
+	temp = result;
+	buffer[reslen] = '\0';
+	newstr = ft_strjoin(result, buffer);
+	free(temp);
+	return (newstr);
+}
+
+int		ft_strlen(char *s, int eol)
+{
+	int		i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	if (eol == 1)
+	{
+		while (s[i] && s[i] != '\n')
+			i++;
+	}
+	else if (eol == 0)
+	{
+		while (s[i])
+			i++;
+	}
+	return (i);
+}
