@@ -35,7 +35,7 @@ char	*ft_empty_string(void)
 	return (s);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
 	int		j;
@@ -94,7 +94,7 @@ int		ft_strlen(char *s, int eol)
 	return (i);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, int start, size_t len)
 {
 	size_t	i;
 	size_t	size;

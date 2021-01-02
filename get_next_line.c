@@ -49,12 +49,12 @@ int     return_result(char *result, char **line, char **tmp, int reslen)
     {
         *line = result;
         tmp = NULL;
-        return (0); // Fin de fichier
+        return (0);
     }
     if (!ft_iseol(result))
     {
         *line = result;
-        return (1); // reslen > 0, Une ligne (sans \n a été trouvé)
+        return (1);
     }
     size = ft_strlen(result, 0) - (ft_strlen(result, 1) + 1);
     *line = ft_substr(result, 0, ft_strlen(result, 1));
