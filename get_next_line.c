@@ -17,7 +17,7 @@ int		get_next_line(int fd, char **line)
     int         reslen;
     char        *buffer;
     char        *result;
-    static char *tmp = NULL;
+    static char *tmp;
 
     if (fd < 0 || !line || BUFFER_SIZE <= 0 
             || !(buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
