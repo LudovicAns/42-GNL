@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lanselin </var/mail/lanselin>              +#+  +:+       +#+        */
+/*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/21 20:12:14 by lanselin          #+#    #+#             */
-/*   Updated: 2020/12/21 20:12:17 by lanselin         ###   ########lyon.fr   */
+/*   Created: 2021/01/15 13:42:48 by lanselin          #+#    #+#             */
+/*   Updated: 2021/01/15 13:51:07 by lanselin         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*ft_combine_result(char *result, char *buffer, int reslen);
 int		ft_strlen(char *s, int eol);
 char	*ft_substr(char *s, int start, size_t len);
 int		get_next_line(int fd, char **line);
-int     return_result(char *result, char **line, char **tmp, int reslen);
-
+int     return_result(char *result, char **line, char *tmp, int reslen);
 
 #endif

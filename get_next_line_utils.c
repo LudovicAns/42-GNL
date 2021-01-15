@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lanselin </var/mail/lanselin>              +#+  +:+       +#+        */
+/*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/21 20:11:59 by lanselin          #+#    #+#             */
-/*   Updated: 2020/12/21 20:12:00 by lanselin         ###   ########lyon.fr   */
+/*   Created: 2021/01/15 13:42:58 by lanselin          #+#    #+#             */
+/*   Updated: 2021/01/15 13:50:34 by lanselin         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_empty_string(void)
 
 	if (!(s = (char *)malloc(sizeof(char) * 1)))
 		return (NULL);
-	s[0]= '\0';
+	s[0] = '\0';
 	return (s);
 }
 
@@ -60,18 +60,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	str[i + j] = '\0';
 	return (str);
-}
-
-char	*ft_combine_result(char *result, char *buffer, int reslen)
-{
-	char	*temp;
-	char	*newstr;
-
-	temp = result;
-	buffer[reslen] = '\0';
-	newstr = ft_strjoin(result, buffer);
-	free(temp);
-	return (newstr);
 }
 
 int		ft_strlen(char *s, int eol)
