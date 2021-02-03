@@ -10,20 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int		get_next_line(int fd, char **line)
 {
 	int			reslen;
 	char		*buffer;
 	char		*result;
-	static char	*tmp;
+	static char	*tmp[4096];
 
 	if (fd < 0 || fd > 4096 || !line || BUFFER_SIZE <= 0
 			|| !(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
 	reslen = 0;
-	result = (!tmp || !(tmp[0])) ? ft_empty_string() : tmp;
+	result = (!tmp[fd] || !(tmp[fd][0])) ? ft_empty_string() : tmp[fd];
 	if (!ft_iseol(result))
 	{
 		while (!ft_iseol(result)
@@ -35,7 +35,7 @@ int		get_next_line(int fd, char **line)
 	if (ft_iseol(result) || reslen < BUFFER_SIZE)
 	{
 		free(buffer);
-		return (return_result(result, line, &tmp, reslen));
+		return (return_result(result, line, &tmp[fd], reslen));
 	}
 	return (-1);
 }
