@@ -45,7 +45,11 @@ int		return_result(char *result, char **line, char **tmp, int len)
 	int		size;
 
 	if (len <= -1)
+	{
+		free(result);
+		result = NULL;
 		return (-1);
+	}
 	if (len == 0 && !ft_iseol(result))
 	{
 		*line = result;
