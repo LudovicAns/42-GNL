@@ -23,10 +23,10 @@ int		get_next_line(int fd, char **line)
 		|| !(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
 	len = 0;
-	if (!tmp || !(tmp[0]))
+	if (!tmp[fd] || !(tmp[fd][0]))
 		result = ft_empty_string();
 	else
-		result = tmp;
+		result = tmp[fd];
 	if (!ft_iseol(result))
 	{
 		while (!ft_iseol(result) && (len = read(fd, buffer, BUFFER_SIZE)) > 0)
