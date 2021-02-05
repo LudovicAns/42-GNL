@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/15 13:42:40 by lanselin          #+#    #+#             */
-/*   Updated: 2021/01/15 13:49:11 by lanselin         ###   ########lyon.fr   */
+/*   Created: 2021/02/05 14:13:21 by lanselin          #+#    #+#             */
+/*   Updated: 2021/02/05 14:13:23 by lanselin         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,39 @@
 
 int		get_next_line(int fd, char **line)
 {
-	int			reslen;
+	int			len;
 	char		*buffer;
 	char		*result;
 	static char	*tmp[4096];
 
 	if (fd < 0 || fd > 4096 || !line || BUFFER_SIZE <= 0
-			|| !(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
+		|| !(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
-	reslen = 0;
-	result = (!tmp[fd] || !(tmp[fd][0])) ? ft_empty_string() : tmp[fd];
+	len = 0;
+	if (!tmp || !(tmp[0]))
+		result = ft_empty_string();
+	else
+		result = tmp;
 	if (!ft_iseol(result))
 	{
-		while (!ft_iseol(result)
-				&& (reslen = read(fd, buffer, BUFFER_SIZE)) > 0)
-		{
-			result = ft_combine_result(result, buffer, reslen);
-		}
+		while (!ft_iseol(result) && (len = read(fd, buffer, BUFFER_SIZE)) > 0)
+			result = ft_combine_result(result, buffer, len);
 	}
-	if (ft_iseol(result) || reslen < BUFFER_SIZE)
+	if (ft_iseol(result) || len < BUFFER_SIZE)
 	{
 		free(buffer);
-		return (return_result(result, line, &tmp[fd], reslen));
+		return (return_result(result, line, &tmp[fd], len));
 	}
 	return (-1);
 }
 
-int		return_result(char *result, char **line, char **tmp, int reslen)
+int		return_result(char *result, char **line, char **tmp, int len)
 {
 	int		size;
 
-	if (reslen <= -1)
+	if (len <= -1)
 		return (-1);
-	if (reslen == 0 && !ft_iseol(result))
+	if (len == 0 && !ft_iseol(result))
 	{
 		*line = result;
 		*tmp = NULL;
@@ -65,10 +65,9 @@ int		return_result(char *result, char **line, char **tmp, int reslen)
 	return (1);
 }
 
-char	*ft_combine_result(char *result, char *buffer, int reslen)
+char	*ft_combine_result(char *result, char *buffer, int len)
 {
-
-	buffer[reslen] = '\0';
+	buffer[len] = '\0';
 	result = ft_strjoin(result, buffer);
 	return (result);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utlis_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lanselin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/15 13:42:58 by lanselin          #+#    #+#             */
-/*   Updated: 2021/01/15 13:50:34 by lanselin         ###   ########lyon.fr   */
+/*   Created: 2021/02/05 14:13:44 by lanselin          #+#    #+#             */
+/*   Updated: 2021/02/05 14:13:45 by lanselin         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_iseol(char *s)
 
 char	*ft_empty_string(void)
 {
-	char *s;
+	char	*s;
 
 	if (!(s = (char *)malloc(sizeof(char) * 1)))
 		return (NULL);
