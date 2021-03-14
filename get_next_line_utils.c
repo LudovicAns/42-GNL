@@ -12,9 +12,50 @@
 
 #include "get_next_line.h"
 
-int		ft_iseol(char *s)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	if (!s)
+	char	*joined_str;
+	int		index;
+
+	if (!(joined_str = (char *) malloc(sizeof(char) * 
+		(ft_strlen(s1, 0) + ft_strlen(s2, 0) + 1))))
+		return (NULL);
+	index = 0;
+	while (*s1)
+	{
+		joined_str[index] = *s1++;
+		index++;
+	}
+	while (*s2)
+	{
+		joined_str[index] = *s2++;
+		index++;
+	}
+	joined_str[index] = '\0';
+	return(joined_str);
+}
+
+int	ft_strlen(char *s, int eol)
+{
+	int count;
+
+	count = 0;
+	if (eol)
+	{
+		while (s[count] && s[count] != '\n')
+            count++;
+	}
+	else
+	{
+		while (s[count])
+			count++;
+	}
+	return count;
+}
+
+int		has_eol(char *s)
+{
+	if (!s || !s[0])
 		return (0);
 	while (*s)
 	{
@@ -25,80 +66,36 @@ int		ft_iseol(char *s)
 	return (0);
 }
 
-char	*ft_empty_string(void)
+char	*empty_str()
 {
-	char	*s;
+	char *ptr;
 
-	if (!(s = (char *)malloc(sizeof(char) * 1)))
+	if (!(ptr = (char *)malloc(sizeof(char) * 1)))
 		return (NULL);
-	s[0] = '\0';
-	return (s);
+	ptr[0] = '\0';
+	return (ptr);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*extract_str(int start_index, int stop_index, char *s)
 {
+	char	*extracted_str;
+	int		index;
 	int		i;
-	int		j;
-	char	*str;
 
-	if (!s1 || !s2)
-		return (0);
-	if (!(str = (char *)malloc((ft_strlen(s1, 0) + ft_strlen(s2, 0))
-					* sizeof(char) + 1)))
+	if (!s || !s[0])
+		return (NULL);
+	if (!(extracted_str = (char *)malloc(sizeof(char) 
+		* ((stop_index + 1) - start_index + 1))))
 		return (NULL);
 	i = 0;
-	while (s1[i])
+	index = 0;
+	while (i < stop_index + 1)
 	{
-		str[i] = s1[i];
+		if (i >= start_index && s[i])
+			extracted_str[index++] = s[i];
+			
 		i++;
 	}
-	j = 0;
-	while (s2[j])
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	str[i + j] = '\0';
-	return (str);
-}
-
-int		ft_strlen(char *s, int eol)
-{
-	int		i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	if (eol == 1)
-	{
-		while (s[i] && s[i] != '\n')
-			i++;
-	}
-	else if (eol == 0)
-	{
-		while (s[i])
-			i++;
-	}
-	return (i);
-}
-
-char	*ft_substr(char *s, int start, size_t len)
-{
-	size_t	i;
-	size_t	size;
-	char	*out;
-
-	if (!s)
-		return (NULL);
-	size = ft_strlen(s, 0) - start;
-	size = len > size ? size : len;
-	if (start > ft_strlen(s, 0))
-		size = 0;
-	if (!(out = (char *)malloc(sizeof(char) * size + 1)))
-		return (NULL);
-	i = 0;
-	while (i < size)
-		out[i++] = s[start++];
-	out[i] = '\0';
-	return (out);
+	extracted_str[index] = '\0';
+	return (extracted_str);
 }

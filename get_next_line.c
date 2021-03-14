@@ -12,66 +12,74 @@
 
 #include "get_next_line.h"
 
-int		get_next_line(int fd, char **line)
-{
-	int			len;
-	char		*buffer;
-	char		*result;
-	static char	*tmp;
-
-	if (fd < 0 || fd > 4096 || !line || BUFFER_SIZE <= 0
-		|| !(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-		return (-1);
-	len = 0;
-	if (!tmp || !(tmp[0]))
-		result = ft_empty_string();
-	else
-		result = tmp;
-	if (!ft_iseol(result))
-	{
-		while (!ft_iseol(result) && (len = read(fd, buffer, BUFFER_SIZE)) > 0)
-			result = ft_combine_result(result, buffer, len);
-	}
-	if (ft_iseol(result) || len < BUFFER_SIZE)
-	{
-		free(buffer);
-		return (return_result(result, line, &tmp, len));
-	}
-	return (-1);
+void	*update_ptr(void *old_ptr, void *new_ptr)
+{;
+	free(old_ptr);
+	//old_ptr = NULL;
+	return (new_ptr);
 }
 
-int		return_result(char *result, char **line, char **tmp, int len)
+int		gnl_result(int readed_size, char **line, char *storage, char *buffer)
 {
-	int		size;
-
-	if (len <= -1)
-	{
-		free(result);
-		result = NULL;
+	if (readed_size < 0)
 		return (-1);
-	}
-	if (len == 0 && !ft_iseol(result))
+	printf("readed_size = %d\n", readed_size);
+	printf("Storage = %s\n", storage);
+	if (has_eol(storage) && readed_size > 0)
 	{
-		*line = result;
-		*tmp = NULL;
-		return (0);
-	}
-	if (!ft_iseol(result))
-	{
-		*line = result;
+		*line = extract_str(0, ft_strlen(storage, 1) - 1, storage);
+		storage = (char *)update_ptr(storage, extract_str(ft_strlen(storage, 1) + 1, ft_strlen(storage, 0) - 1, storage));
 		return (1);
 	}
-	size = ft_strlen(result, 0) - (ft_strlen(result, 1) + 1);
-	*line = ft_substr(result, 0, ft_strlen(result, 1));
-	*tmp = ft_substr(result, ft_strlen(result, 1) + 1, size);
-	free(result);
-	result = NULL;
-	return (1);
+	else
+	{
+		*line = storage;
+		free(buffer);
+		return (0);
+	}
 }
 
-char	*ft_combine_result(char *result, char *buffer, int len)
+int		get_next_line(int fd, char **line)
 {
-	buffer[len] = '\0';
-	result = ft_strjoin(result, buffer);
-	return (result);
+	static char *storage;
+	char		*buffer;
+	int			readed_size;
+
+	if (fd < 0 || fd > 500 || !line || BUFFER_SIZE <= 0
+		|| !(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
+		return (-1);
+
+	if (!storage || !storage[0])
+		storage = empty_str();
+
+	if (!has_eol(storage))
+	{
+		while (!has_eol(storage) && (readed_size = read(fd, buffer, BUFFER_SIZE)) > 0)
+		{
+			buffer[readed_size] = '\0';
+			storage = (char *)update_ptr(storage, ft_strjoin(storage, buffer));
+		}
+		buffer[readed_size] = '\0';
+		storage = (char *)update_ptr(storage, ft_strjoin(storage, buffer));
+	}
+
+	return (gnl_result(readed_size, line, storage, buffer));
+}
+
+int main(void)
+{
+	char	*line;
+	int		value = 1;
+	int		fd = open("nl", O_RDONLY);
+
+
+	get_next_line(fd, &line);
+	get_next_line(fd, &line);
+	//while (value)
+	//{
+	//	value = get_next_line(fd, &line);
+	//	printf("%d. %s\n", value, line);
+	//}
+
+	return (0);
 }
