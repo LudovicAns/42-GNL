@@ -71,7 +71,11 @@ int		return_result(char *result, char **line, char **tmp, int len)
 
 char	*ft_combine_result(char *result, char *buffer, int len)
 {
+	void *ptr_saver;
+
 	buffer[len] = '\0';
+	ptr_saver = result;
 	result = ft_strjoin(result, buffer);
+	free(ptr_saver);
 	return (result);
 }
