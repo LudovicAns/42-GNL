@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	int			len;
 	char		*buffer;
@@ -24,7 +24,10 @@ int		get_next_line(int fd, char **line)
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (-1);
-	res = (!tmp || !(tmp[0])) ? ft_strdup("\0") : ft_strdup(tmp);
+	if (!tmp || !(tmp[0]))
+		res = ft_strdup("\0");
+	else
+		res = ft_strdup(tmp);
 	len = 0;
 	if (!iseol(res))
 		len = process_read(fd, &buffer, &res);
@@ -47,22 +50,28 @@ void	secure_free(char **ptr)
 	}
 }
 
-int		process_read(int fd, char **buffer, char **res)
+int	process_read(int fd, char **buffer, char **res)
 {
-	int len;
+	int	len;
 
 	len = 0;
-	len = (!iseol(*res)) ? read(fd, *buffer, BUFFER_SIZE) : 0;
-	*res =  len > 0 ? combine(*res, *buffer, len) : *res;
+	if (!iseol(*res))
+		len = read(fd, *buffer, BUFFER_SIZE);
+	if (len > 0)
+		*res = combine(*res, *buffer, len);
 	while (!iseol(*res) && len > 0)
 	{
-		len = !iseol(*res) && len > 0 ? read(fd, *buffer, BUFFER_SIZE) : 0;
-		*res =  len > 0 ? combine(*res, *buffer, len) : *res;
+		if (!iseol(*res) && len > 0)
+			len = read(fd, *buffer, BUFFER_SIZE);
+		else
+			len = 0;
+		if (len > 0)
+			*res = combine(*res, *buffer, len);
 	}
 	return (len);
 }
 
-int		return_result(char *res, char **line, char **tmp, int len)
+int	return_result(char *res, char **line, char **tmp, int len)
 {
 	int		size;
 
@@ -88,7 +97,7 @@ int		return_result(char *res, char **line, char **tmp, int len)
 
 char	*combine(char *res, char *buffer, int len)
 {
-	void *ptr_saver;
+	void	*ptr_saver;
 
 	buffer[len] = '\0';
 	ptr_saver = res;

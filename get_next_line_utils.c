@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-int		iseol(char *s)
+int	iseol(char *s)
 {
 	if (!s)
 		return (0);
@@ -30,7 +30,8 @@ char	*ft_strdup(char *s)
 	char	*dup;
 	int		i;
 
-	if (!(dup = (char *)malloc(ft_strlen(s, 0) + 1 * sizeof(char))))
+	dup = (char *)malloc((ft_strlen(s, 0) + 1) * sizeof(char));
+	if (!dup)
 		return (NULL);
 	i = 0;
 	while (s[i] != '\0')
@@ -53,8 +54,9 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (0);
-	if (!(str = (char *)malloc((ft_strlen(s1, 0) + ft_strlen(s2, 0))
-					* sizeof(char) + 1)))
+	str = (char *)malloc((ft_strlen(s1, 0) + ft_strlen(s2, 0) + 1)
+			* sizeof(char));
+	if (!str)
 		return (NULL);
 	i = 0;
 	while (s1[i])
@@ -72,7 +74,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-int		ft_strlen(char *s, int eol)
+int	ft_strlen(char *s, int eol)
 {
 	int		i;
 
@@ -101,10 +103,12 @@ char	*ft_substr(char *s, int start, size_t len)
 	if (!s)
 		return (NULL);
 	size = ft_strlen(s, 0) - start;
-	size = len > size ? size : len;
+	if (!(len > size))
+		size = len;
 	if (start > ft_strlen(s, 0))
 		size = 0;
-	if (!(out = (char *)malloc(sizeof(char) * size + 1)))
+	out = (char *)malloc(sizeof(char) * (size + 1));
+	if (!out)
 		return (NULL);
 	i = 0;
 	while (i < size)
