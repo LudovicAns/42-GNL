@@ -30,5 +30,6 @@ int		ft_strlen(char *s, int eol);
 char	*ft_substr(char *s, int start, size_t len);
 int		get_next_line(int fd, char **line);
 int     return_result(char *result, char **line, char **tmp, int reslen);
+char	*ft_strdup(char *s);
 
 #endif

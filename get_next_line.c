@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <string.h>
 
 int		get_next_line(int fd, char **line)
 {
@@ -26,7 +27,7 @@ int		get_next_line(int fd, char **line)
 	if (!tmp || !(tmp[0]))
 		result = ft_empty_string();
 	else
-		result = tmp;
+		result = ft_strdup(tmp);
 	if (!ft_iseol(result))
 	{
 		while (!ft_iseol(result) && (len = read(fd, buffer, BUFFER_SIZE)) > 0)
@@ -52,20 +53,22 @@ int		return_result(char *result, char **line, char **tmp, int len)
 	}
 	if (len == 0 && !ft_iseol(result))
 	{
-		*line = result;
-		*tmp = NULL;
+		*line = ft_strdup(result);
+		if (*tmp != NULL) {free(*tmp); *tmp = NULL;}
+		if (result != NULL) {free(result); result = NULL;}
 		return (0);
 	}
 	if (!ft_iseol(result))
 	{
-		*line = result;
+		*line = ft_strdup(result);
+		if (result != NULL) {free(result); result = NULL;}
 		return (1);
 	}
 	size = ft_strlen(result, 0) - (ft_strlen(result, 1) + 1);
 	*line = ft_substr(result, 0, ft_strlen(result, 1));
+	if (*tmp != NULL) {free(*tmp); *tmp = NULL;}
 	*tmp = ft_substr(result, ft_strlen(result, 1) + 1, size);
-	free(result);
-	result = NULL;
+	if (result != NULL) {free(result); result = NULL;}
 	return (1);
 }
 
@@ -78,4 +81,24 @@ char	*ft_combine_result(char *result, char *buffer, int len)
 	result = ft_strjoin(result, buffer);
 	free(ptr_saver);
 	return (result);
+}
+
+char	*ft_strdup(char *s)
+{
+	char	*dup;
+	int		i;
+
+	if (!(dup = (char *)malloc(ft_strlen(s, 0) + 1 * sizeof(char))))
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	if (s[i] == '\0')
+	{
+		dup[i] = '\0';
+	}
+	return (dup);
 }
