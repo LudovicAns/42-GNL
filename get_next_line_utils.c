@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-int		ft_iseol(char *s)
+int		iseol(char *s)
 {
 	if (!s)
 		return (0);
@@ -25,14 +25,24 @@ int		ft_iseol(char *s)
 	return (0);
 }
 
-char	*ft_empty_string(void)
+char	*ft_strdup(char *s)
 {
-	char	*s;
+	char	*dup;
+	int		i;
 
-	if (!(s = (char *)malloc(sizeof(char) * 1)))
+	if (!(dup = (char *)malloc(ft_strlen(s, 0) + 1 * sizeof(char))))
 		return (NULL);
-	s[0] = '\0';
-	return (s);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	if (s[i] == '\0')
+	{
+		dup[i] = '\0';
+	}
+	return (dup);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
