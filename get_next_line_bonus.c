@@ -79,16 +79,19 @@ int	return_result(char *res, char **line, char **tmp, int len)
 		return (-1);
 	if (len == 0 && !iseol(res))
 	{
+		secure_free(&*line);
 		*line = ft_strdup(res);
 		secure_free(&*tmp);
 		return (0);
 	}
 	if (!iseol(res))
 	{
+		secure_free(&*line);
 		*line = ft_strdup(res);
 		return (1);
 	}
 	size = ft_strlen(res, 0) - (ft_strlen(res, 1) + 1);
+	secure_free(&*line);
 	*line = ft_substr(res, 0, ft_strlen(res, 1));
 	secure_free(&*tmp);
 	*tmp = ft_substr(res, ft_strlen(res, 1) + 1, size);
